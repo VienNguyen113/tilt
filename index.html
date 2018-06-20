@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Tilt</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <style type="text/css">
+  </style>
+</head>
+<body>
+  <script type="text/javascript">
+    $(document).mousemove(function(e){
+      function calcAngle(A, O) {
+        const dy = A.y - O.y
+        const dx = A.x - O.x
+        var theta = - Math.atan2(dy, dx); // range (-PI, PI]
+        if (theta < 0) theta = theta + 2 * Math.PI; // change range to (0, 2PI]
+        theta *= 180 / Math.PI; // rads to degs
+        return theta;
+      }
+
+      let angle = 0
+      let distance = 0
+
+      const coorCenter = {
+        x: window.innerWidth / 2,
+        y: window.innerHeight / 2,
+      }
+
+      const coorMouse = {
+        x: e.clientX,
+        y: e.clientY,
+      }
+
+      const coorDistance = {
+        x: coorMouse.x - coorCenter.x,
+        y: coorMouse.y - coorCenter.y,
+      }
+
+      distance = Math.sqrt(coorDistance.x * coorDistance.x + coorDistance.y * coorDistance.y)
+      angle = calcAngle(coorMouse, coorCenter)
+
+      // setInterval(function(){ 
+        console.log("Angle:", angle)
+        console.log("Distance:", distance)
+      // }, 50);
+    });
+  </script>
+</body>
+</html>
