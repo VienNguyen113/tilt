@@ -16,7 +16,10 @@
     $(document).mousemove(function(e){
       if ($("body").hasClass("allow-tilt")) {
         const tiltEl = $("#tilt");
-        const scale = 1.1;
+        const scale = 1.1; // scale the Tilt
+        const defaultRotate = 17.5; // max tilt
+        let rotateY = 0;
+        let rotateX = 0;
 
         // calculate coordinate
         const coorCenter = {
@@ -37,10 +40,6 @@
             min: 0,
           },
         }
-
-        const defaultRotate = 17.5;
-        let rotateY = 0;
-        let rotateX = 0;
 
         rotateX = (coorMouse.y - coorCenter.y) / (rangeTilt.y.max - coorCenter.y) * defaultRotate;
         rotateY = (coorMouse.x - coorCenter.x) / (rangeTilt.x.max - coorCenter.x) * (-defaultRotate);
