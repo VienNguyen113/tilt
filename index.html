@@ -5,7 +5,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <link rel="stylesheet" type="text/css" href="custom.css">
 </head>
-<body class="not-allow-tilt">
+<body class="allow-tilt">
   <div class="flex-container">
     <a id="tilt" class="tilt" href=" ">
       <span>CustomTiltJs</span>
@@ -14,7 +14,7 @@
 
   <script type="text/javascript">
     $(document).mousemove(function(e){
-      if ($("body").hasClass("not-allow-tilt")) {
+      if ($("body").hasClass("allow-tilt")) {
         const tiltEl = $("#tilt");
         const wTilt = tiltEl.width();
         const hTilt = tiltEl.height();
