@@ -5,7 +5,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <link rel="stylesheet" type="text/css" href="custom.css">
 </head>
-<body>
+<body class="not-allow-tilt">
   <div class="flex-container">
     <a id="tilt" class="tilt" href=" ">
       <span>CustomTiltJs</span>
@@ -14,40 +14,55 @@
 
   <script type="text/javascript">
     $(document).mousemove(function(e){
-      const tiltEl = $("#tilt");
-      const wTilt = tiltEl.width();
-      const hTilt = tiltEl.height();
+      if ($("body").hasClass("not-allow-tilt")) {
+        const tiltEl = $("#tilt");
+        const wTilt = tiltEl.width();
+        const hTilt = tiltEl.height();
 
-      const scale = 1.1;
+        const scale = 1.1;
 
-      // calculate coordinate
-      const coorCenter = {
-        x: window.innerWidth / 2,
-        y: window.innerHeight / 2,
-      };
-      const coorMouse = {
-        x: e.clientX,
-        y: e.clientY,
-      };
-      const rangeTilt = {
-        x: {
-          max: coorCenter.x + scale * wTilt / 2,
-          min: coorCenter.x - scale * wTilt / 2,
-        },
-        y: {
-          max: coorCenter.y + scale * hTilt / 2,
-          min: coorCenter.y - scale * hTilt / 2,
-        },
-      }
+        // calculate coordinate
+        const coorCenter = {
+          x: window.innerWidth / 2,
+          y: window.innerHeight / 2,
+        };
+        const coorMouse = {
+          x: e.clientX,
+          y: e.clientY,
+        };
+        const rangeTilt = {
+          x: {
+            max: coorCenter.x + scale * wTilt / 2,
+            min: coorCenter.x - scale * wTilt / 2,
+          },
+          y: {
+            max: coorCenter.y + scale * hTilt / 2,
+            min: coorCenter.y - scale * hTilt / 2,
+          },
+        }
 
-      if (rangeTilt.x.min <= coorMouse.x && coorMouse.x <= rangeTilt.x.max
-      && rangeTilt.y.min <= coorMouse.y && coorMouse.y <= rangeTilt.y.max) {
         const defaultRotate = 17.5;
-        rotateY = (coorMouse.x - coorCenter.x) / (rangeTilt.x.max - coorCenter.x) * (-defaultRotate);
-        rotateX = (coorMouse.y - coorCenter.y) / (rangeTilt.y.max - coorCenter.y) * defaultRotate;
+        let rotateY = 0;
+        let rotateX = 0;
+
+
+        if (coorMouse.x < rangeTilt.x.min) {
+          rotateY = defaultRotate;
+        } else if (rangeTilt.x.max < coorMouse.x) {
+          rotateY = - defaultRotate;
+        } else {
+          rotateY = (coorMouse.x - coorCenter.x) / (rangeTilt.x.max - coorCenter.x) * (-defaultRotate);
+        }
+
+        if (coorMouse.y < rangeTilt.y.min) {
+          rotateX = defaultRotate;
+        } else if (rangeTilt.y.max < coorMouse.y) {
+          rotateX = - defaultRotate;
+        } else {
+          rotateX = (coorMouse.y - coorCenter.y) / (rangeTilt.y.max - coorCenter.y) * defaultRotate;
+        }
+
         tiltEl.css("transform", "perspective(1000px) rotateX(" + rotateX + "deg) rotateY(" + rotateY + "deg) scale3d(" + scale + ", " + scale + ", " + scale + ")");
-      } else {
-        tiltEl.css("transform", "perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)");
       }
     });
   </script>
