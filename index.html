@@ -16,9 +16,6 @@
     $(document).mousemove(function(e){
       if ($("body").hasClass("allow-tilt")) {
         const tiltEl = $("#tilt");
-        const wTilt = tiltEl.width();
-        const hTilt = tiltEl.height();
-
         const scale = 1.1;
 
         // calculate coordinate
@@ -32,12 +29,12 @@
         };
         const rangeTilt = {
           x: {
-            max: coorCenter.x + scale * wTilt / 2,
-            min: coorCenter.x - scale * wTilt / 2,
+            max: $(window).width(),
+            min: 0,
           },
           y: {
-            max: coorCenter.y + scale * hTilt / 2,
-            min: coorCenter.y - scale * hTilt / 2,
+            max: $(window).height(),
+            min: 0,
           },
         }
 
@@ -45,22 +42,8 @@
         let rotateY = 0;
         let rotateX = 0;
 
-
-        if (coorMouse.x < rangeTilt.x.min) {
-          rotateY = defaultRotate;
-        } else if (rangeTilt.x.max < coorMouse.x) {
-          rotateY = - defaultRotate;
-        } else {
-          rotateY = (coorMouse.x - coorCenter.x) / (rangeTilt.x.max - coorCenter.x) * (-defaultRotate);
-        }
-
-        if (coorMouse.y < rangeTilt.y.min) {
-          rotateX = defaultRotate;
-        } else if (rangeTilt.y.max < coorMouse.y) {
-          rotateX = - defaultRotate;
-        } else {
-          rotateX = (coorMouse.y - coorCenter.y) / (rangeTilt.y.max - coorCenter.y) * defaultRotate;
-        }
+        rotateX = (coorMouse.y - coorCenter.y) / (rangeTilt.y.max - coorCenter.y) * defaultRotate;
+        rotateY = (coorMouse.x - coorCenter.x) / (rangeTilt.x.max - coorCenter.x) * (-defaultRotate);
 
         tiltEl.css("transform", "perspective(1000px) rotateX(" + rotateX + "deg) rotateY(" + rotateY + "deg) scale3d(" + scale + ", " + scale + ", " + scale + ")");
       }
